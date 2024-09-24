@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Details</title>
+    <style>
+        body {
+            background: url(cc.jpg) no-repeat;
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            color: white;
+            margin: 0;
+            padding: 60px;
+            height: 100vh; /* Ensure body takes up full height of viewport */
+        }
+        
+        table {
+            margin: 0 auto;
+            padding: 8px;
+        }
+        
+        td {
+            color: white;
+            text-align: justify;
+            font-weight: bold;
+            padding: 6px;
+        }
+        
+        input[type="text"], input[type="email"], input[type="password"], input[type="date"], textarea {
+            width: 100%;
+            padding: 6px;
+            border-radius: 5px;
+            box-sizing: border-box;
+            border: 1px solid skyblue;
+        }
+        
+        input[type="button"], input[type="submit"], input[type="reset"] {
+            background-color: white;
+            font-weight: bold;
+            color: blue;
+            border: 1px solid skyblue;
+            border-radius: 5px;
+            margin: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        
+        input[type="checkbox"], input[type="radio"] {
+            margin-right: 5px;
+        }
+        
+        h1 {
+            color: white;
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                background: url(bck1.jpg) no-repeat;
+                background-size: cover;
+            }
+
+            h1 {
+                font-size: 1.8em; /* Slightly smaller font on tablets */
+            }
+
+            form {
+                padding: 15px; /* Reduced padding on tablets */
+            }
+
+            input[type="button"], 
+            input[type="submit"], 
+            input[type="reset"] {
+                padding: 8px 16px; /* Smaller button padding */
+            }
+
+            textarea {
+                resize: vertical; /* Allow vertical resize for textarea */
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                background: url(cl.jpg) no-repeat;
+                background-size: cover;
+            }
+
+            h1 {
+                font-size: 1.5em; /* Smaller font on mobile */
+            }
+
+            form {
+                padding: 10px; /* Less padding on mobile */
+            }
+
+            input[type="button"], 
+            input[type="submit"], 
+            input[type="reset"] {
+                padding: 6px 12px; /* Smaller button padding on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1><u>STUDENT REGISTRATION FORM</u></h1>
+    <form id="registrationForm">
+        <table>
+            <tr>
+                <td>First Name:</td>
+                <td><input type="text" id="firstname" name="Firstname" required></td>
+            </tr>
+            <tr>
+                <td>Last Name:</td>
+                <td><input type="text" id="lastname" name="Lastname" required></td>
+            </tr>
+            <tr>
+                <td>Email ID:</td>
+                <td><input type="email" id="email" name="Email" required></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" id="password" name="Password" required></td>
+            </tr>
+            <tr>
+                <td>Date of Birth:</td>
+                <td><input type="date" id="dob" name="DOB" required></td>
+            </tr>
+            <tr>
+                <td>Gender:</td>
+                <td>
+                    <input type="radio" id="genderMale" name="gender" value="Male" required> Male
+                    <input type="radio" id="genderFemale" name="gender" value="Female" required> Female
+                </td>
+            </tr>
+            <tr>
+                <td>Mobile:</td>
+                <td><input type="text" id="mobile" name="Mobile" required></td>
+            </tr>
+            <tr>
+                <td>Address:</td>
+                <td><textarea id="address" name="Address" cols="40" rows="4" required></textarea></td>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" id="submitBtn" value="Submit">
+        <input type="reset" value="Reset">
+        
+    </form>
+
+    <script>
+        // Adding validation on submit button click
+        document.getElementById("submitBtn").addEventListener("click", function(event) {
+            const firstName = document.getElementById("firstname").value;
+            const lastName = document.getElementById("lastname").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const dob = document.getElementById("dob").value;
+            const mobile = document.getElementById("mobile").value;
+            const address = document.getElementById("address").value;
+            const genderSelected = document.querySelector('input[name="gender"]:checked');
+
+            const namePattern = /^[A-Za-z\s]+$/;  // Updated: allows letters and spaces
+            const emailPattern = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/;
+            const mobilePattern = /^[0-9]{10}$/;
+            const addressPattern = /\d/;
+
+            // Validating First Name and Last Name
+            if (!namePattern.test(firstName)) {
+                alert("Please enter a valid First Name (letters and spaces only).");
+                event.preventDefault();
+                return;
+            }
+
+            if (!namePattern.test(lastName)) {
+                alert("Please enter a valid Last Name (letters and spaces only).");
+                event.preventDefault();
+                return;
+            }
+
+            // Validating Email
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid Email address.");
+                event.preventDefault();
+                return;
+            }
+
+            // Validating Password (min length: 6)
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters long.");
+                event.preventDefault();
+                return;
+            }
+
+            // Validating Date of Birth (DOB should not be a future date)
+            const currentDate = new Date();
+            const dobDate = new Date(dob);
+            if (dobDate >= currentDate) {
+                alert("Date of Birth cannot be in the future.");
+                event.preventDefault();
+                return;
+            }
+
+            // Validating Mobile Number (exactly 10 digits)
+            if (!mobilePattern.test(mobile)) {
+                alert("Please enter a valid 10-digit Mobile number.");
+                event.preventDefault();
+                return;
+            }
+
+            // Validating Gender selection
+            if (!genderSelected) {
+                alert("Please select a gender.");
+                event.preventDefault();
+                return;
+            }
+
+            // Validating Address (at least 10 characters and contains at least one number)
+            if (address.trim().length < 10) {
+                alert("Address must be at least 10 characters long.");
+                event.preventDefault();
+                return;
+            } else if (!addressPattern.test(address)) {
+                alert("Address must contain at least one number.");
+                event.preventDefault();
+                return;
+            }
+
+            // If all validations pass
+            alert("Form submitted successfully!");
+        });
+    </script>
+</body>
+</html>
